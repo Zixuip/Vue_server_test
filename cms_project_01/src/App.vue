@@ -4,11 +4,22 @@
       <el-menu router :default-openeds="['1']">
         <el-submenu index="1">
           <template slot="title">
-            <i class="el-icon-tickets"></i>内容管理
+            <i class="el-icon-tickets"></i>商品管理
           </template>
           <el-menu-item-group>
+            <template slot="title">分类</template>
+            <el-menu-item index="/categories/index">商品分类</el-menu-item>
+            <el-menu-item index="/categories/create">新增分类</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group>
+            <template slot="title">商品</template>
             <el-menu-item index="/goods/index">商品列表</el-menu-item>
             <el-menu-item index="/goods/create">新增商品</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group>
+            <template slot="title">轮播图</template>
+            <el-menu-item index="/lunbo/index">轮播图列表</el-menu-item>
+            <el-menu-item index="/lunbo/create">新增轮播图</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -18,11 +29,6 @@
       <el-header style="text-align: right; font-size: 12px">
         <el-dropdown>
           <i class="el-icon-setting" style="margin-right: 15px"></i>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>查看</el-dropdown-item>
-            <el-dropdown-item>新增</el-dropdown-item>
-            <el-dropdown-item>删除</el-dropdown-item>
-          </el-dropdown-menu>
         </el-dropdown>
         <span>王小虎</span>
       </el-header>

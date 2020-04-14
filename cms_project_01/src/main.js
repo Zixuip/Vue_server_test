@@ -12,11 +12,8 @@ Vue.use(Mint);
 import 'mint-ui/lib/style.css'
 import './plugins/element.js'
 
-// 配置axios
-import axios from 'axios'
-Vue.prototype.$http = axios.create({
-  baseURL: 'http://localhost:3000/api'
-})
+import http from './http'
+Vue.prototype.$http = http
 
 
 /* 第二种配置

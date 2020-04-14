@@ -1,24 +1,11 @@
 <template>
   <div>
-    <h1>{{id? '编辑':'新建'}}商品</h1>
+    <h1>{{id? '编辑':'新建'}}轮播图</h1>
     <el-form @submit.native.prevent="saveGoods" label-width="120px">
-      <el-form-item label="上级类型">
-        <el-select v-model="model.categories" multiple>
-          <el-option
-            v-for="item in categories"
-            :key="item._id"
-            :label="item.name"
-            :value="item._id"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="商品名称">
+      <el-form-item label="轮播图名称">
         <el-input v-model="model.name"></el-input>
       </el-form-item>
-      <el-form-item label="商品价格">
-        <el-input v-model="model.price"></el-input>
-      </el-form-item>
-      <el-form-item label="商品图片">
+      <el-form-item label="轮播图">
         <el-upload
           class="avatar-uploader"
           :action="$http.defaults.baseURL+'/upload'"
@@ -29,8 +16,8 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="商品描述">
-        <el-input type="textarea" v-model="model.body"></el-input>
+      <el-form-item label="跳转地址">
+        <el-input type="text" v-model="model.urlink"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
@@ -48,8 +35,7 @@ export default {
     return {
       model: {
         icon: ""
-      },
-      categories: []
+      }
     };
   },
 
@@ -61,32 +47,27 @@ export default {
       let res;
       if (this.id) {
         // 有ID进行更新操作
-        res = await this.$http.put(`rest/goods/${this.id}`, this.model);
+        res = await this.$http.put(`rest/lunbo/${this.id}`, this.model);
         this.$message({
           message: "商品信息更新成功",
           type: "success"
         });
       } else {
         // 没有ID进行添加操作
-        res = await this.$http.post("rest/goods", this.model);
+        res = await this.$http.post("rest/lunbo", this.model);
         this.$message({
           message: "商品添加成功",
           type: "success"
         });
       }
-      this.$router.push("/goods/index");
+      this.$router.push("/lunbo/index");
     },
     async fetch() {
-      const res = await this.$http.get(`rest/goods/${this.id}`);
+      const res = await this.$http.get(`rest/lunbo/${this.id}`);
       this.model = res.data;
-    },
-    async fetchCategories() {
-      const res = await this.$http.get(`rest/categories`);
-      this.categories = res.data;
     }
   },
   created() {
-    this.fetchCategories();
     this.id && this.fetch();
   }
 };
@@ -112,8 +93,11 @@ export default {
   text-align: center;
 }
 .avatar {
-  width: 178px;
-  height: 178px;
+  width: 300px;
+  height: 150px;
   display: block;
+}
+.img {
+  width: 100%;
 }
 </style>
