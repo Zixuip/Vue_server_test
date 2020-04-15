@@ -5,8 +5,8 @@ import ListGoods from '../view/ListGoods.vue'
 import EditGoods from '../view/EditGoods.vue'
 import CategoriesList from '../view/CategoriesList.vue'
 import CategoriesEdit from '../view/CategoriesEdit.vue'
-import LunboList from '../view/LunboList.vue'
-import LunboEdit from '../view/LunboEdit.vue'
+import AdList from '../view/AdList.vue'
+import AdEdit from '../view/AdEdit.vue'
 
 // 使用Vue-router插件 vue.prototype.$router = Router;
 Vue.use(Router)
@@ -51,19 +51,19 @@ export default new Router({
           props: true
         },
         {
-          path: '/lunbo/index',
-          name: 'list-lunbo',
-          component: LunboList,
+          path: '/ads/index',
+          name: 'list-ad',
+          component: AdList,
         },
         {
-          path: '/lunbo/create',
-          name: 'create-lunbo',
-          component: LunboEdit,
+          path: '/ads/create',
+          name: 'create-ad',
+          component: AdEdit,
         },
         {
-          path: '/lunbo/edit/:id',
-          name: 'edit-lunbo',
-          component: LunboEdit,
+          path: '/ads/edit/:id',
+          name: 'edit-ad',
+          component: AdEdit,
           props: true
         },
 
