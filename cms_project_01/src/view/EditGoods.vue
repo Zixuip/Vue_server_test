@@ -21,7 +21,8 @@
       <el-form-item label="商品图片">
         <el-upload
           class="avatar-uploader"
-          :action="$http.defaults.baseURL+'/upload'"
+          :action="uploadUrl"
+          :headers="getAuthHeaders()"
           :show-file-list="false"
           :on-success="afterUpload"
         >

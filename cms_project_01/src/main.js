@@ -15,6 +15,24 @@ import './plugins/element.js'
 import http from './http'
 Vue.prototype.$http = http
 
+// 全局mixin
+Vue.mixin({
+  computed: {
+    // 封装一个全局可以用的uploadUrl方法
+    uploadUrl() {
+      return this.$http.defaults.baseURL + '/upload'
+    }
+  },
+  methods: {
+    // 封装一个，全局可以获得Authorization的方法，以免有些地方获取不到请求头，导致无法进行相关操作
+    getAuthHeaders() {
+      return {
+        Authorization: `Bearer ${localStorage.token || ''}`
+      }
+    }
+  },
+})
+
 
 /* 第二种配置
 import Axios from 'axios'

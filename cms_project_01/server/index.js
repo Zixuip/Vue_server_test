@@ -10,6 +10,9 @@ app.use(express.json())
 // 托管静态文件
 app.use('/uploads', express.static(__dirname + '/uploads'))
 
+// 在app这个实例身上设置一个变量
+app.set('secret', 'zixu.com')
+
 // 引用数据库
 require('./plugins/db')(app)
 // 向admin内部调用app
