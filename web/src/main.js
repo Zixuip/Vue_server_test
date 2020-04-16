@@ -2,11 +2,21 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 
+
 Vue.config.productionTip = false
 
-// 引入全部组件
-import Mint from 'mint-ui';
-Vue.use(Mint);
+import './style.scss'
+
+// 引入vantui
+import Vant from 'vant';
+import 'vant/lib/index.css';
+Vue.use(Vant);
+
+// 图片懒加载
+import { Lazyload } from 'vant';
+Vue.use(Lazyload);
+
+
 
 new Vue({
   router,

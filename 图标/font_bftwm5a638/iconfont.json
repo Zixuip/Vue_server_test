@@ -1,0 +1,37 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "453128",
+      "name": "back",
+      "font_class": "iconfontback",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "7937425",
+      "name": "more",
+      "font_class": "more",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "9374346",
+      "name": "search_a",
+      "font_class": "chaxun",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "10101831",
+      "name": "more read",
+      "font_class": "moreread",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    }
+  ]
+}
