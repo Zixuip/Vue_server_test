@@ -17,6 +17,7 @@ app.set('secret', 'zixu.com')
 require('./plugins/db')(app)
 // 向admin内部调用app
 require('./routes/admin')(app)
+require('./routes/web')(app)
 
 
 app.listen(3000, () => {

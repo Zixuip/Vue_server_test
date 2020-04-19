@@ -1,16 +1,12 @@
 <template>
   <div>
     <!-- header -->
-    <van-nav-bar
-      title="购物车"
-      left-text="返回"
-      right-text="更多"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-      fixed
-      :placeholder="true"
-    ></van-nav-bar>
+    <van-nav-bar title="购物车" fixed :placeholder="true">
+      <van-icon v-if="!showEdit" size="20px" name="edit" slot="right" @click="onEdit" />
+      <van-icon v-else size="20px" name="cross" slot="right" @click="showEdit = !showEdit" />
+    </van-nav-bar>
+
+    <div class="container"></div>
 
     <!-- 内容 -->
     <van-swipe-cell>
@@ -21,10 +17,11 @@
         title="2020IPAD PRO"
         class="goods-card"
         thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
-      />
-      <template #right>
-        <van-button square text="删除" type="danger" class="delete-button" />
-      </template>
+      >
+        <template #footer>
+          <van-button size="mini">删除</van-button>
+        </template>
+      </van-card>
     </van-swipe-cell>
     <!-- 底部结算 -->
     <div>
@@ -35,7 +32,6 @@
 
 
 <script>
-import { Toast } from "vant";
 export default {
   data() {
     return {
@@ -43,14 +39,11 @@ export default {
     };
   },
   methods: {
-    onClickLeft() {
-      Toast("返回");
-    },
-    onClickRight() {
-      Toast("按钮");
-    },
     onSubmit() {
       console.log("ok");
+    },
+    onBack() {
+      this.$router.go(-1);
     }
   }
 };

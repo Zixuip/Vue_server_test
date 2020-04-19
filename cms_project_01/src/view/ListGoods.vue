@@ -2,10 +2,10 @@
   <div>
     <h3>商品列表</h3>
     <el-table :data="goods">
-      <el-table-column prop="_id" label="ID"></el-table-column>
-      <el-table-column prop="categories" label="上级分类" width="150"></el-table-column>
       <el-table-column prop="name" label="商品名称" width="150"></el-table-column>
-      <el-table-column prop="price" label="商品价格" width="150"></el-table-column>
+      <el-table-column prop="price" label="新价格" width="150"></el-table-column>
+      <el-table-column prop="oldprice" label="旧价格" width="150"></el-table-column>
+      <el-table-column prop="amount" label="库存" width="150"></el-table-column>
       <el-table-column prop="icon" label="商品图片" width="150">
         <template slot-scope="scope">
           <img :src="scope.row.icon" style="height:3rem" />

@@ -3,10 +3,9 @@ const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
   name: { type: String },
-  items: [{
-    img: { type: String },
-    urlink: { type: String }
-  }]
+  img: { type: String },
+  urlink: { type: String }
+
 
 })
 

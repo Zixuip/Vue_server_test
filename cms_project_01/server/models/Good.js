@@ -4,9 +4,15 @@ const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
   name: { type: String },
+  point: { type: String },
   price: { type: Number },
+  oldprice: { type: Number },
+  amount: { type: Number },
   body: { type: String },
   icon: { type: String },
+  img: [{
+    image: { type: String }
+  }],
   categories: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Category' }]
 })
 

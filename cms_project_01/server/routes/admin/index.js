@@ -46,6 +46,7 @@ module.exports = app => {
     const model = await req.Model.findById(req.params.id)
     res.send(model)
   })
+
   //根据id，进行修改
   router.put('/:id', async (req, res) => {
     const model = await req.Model.findByIdAndUpdate(req.params.id, req.body)
