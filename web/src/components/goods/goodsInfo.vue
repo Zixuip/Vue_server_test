@@ -8,8 +8,9 @@
         <img :src="goods.icon" class="goodsImg" />
         <div class="detail-content">
           <div class="d-flex fs-xxl">
-            <p class="price fs-xxl">¥{{ goods.price}}</p>
+            <p class="price fs-xxl">商品价格：{{ goods.price}}￥</p>
           </div>
+          <van-divider />
           <div v-for="(items,index) in goods.img" :key="index">
             <img :src="items.image" class="imgage" />
           </div>

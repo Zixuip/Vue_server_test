@@ -26,7 +26,7 @@ export default {
       console.log(this.model);
     }, */
     async login() {
-      const res = await this.$http.post("login", this.model);
+      const res = await this.$http.post("login");
       localStorage.token = res.data.token;
       //把服务端返回的token保存到浏览器的存储中，浏览器关闭后，数据还在
       // sessionStorage.token = res.data.token;

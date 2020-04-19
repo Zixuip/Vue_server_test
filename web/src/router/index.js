@@ -11,6 +11,7 @@ import Category from '../components/tabbar/Category.vue'
 import goodsInfo from '../components/goods/goodsInfo.vue'
 import goodsList from '../components/goods/goodsList.vue'
 import Cart from '../components/Cart/Cart.vue'
+import Info from '../components/member/Info.vue'
 
 
 Vue.use(VueRouter)
@@ -18,6 +19,7 @@ Vue.use(VueRouter)
 const routes = [
   { path: '/login', name: 'login', component: Login },
   { path: '/register', name: 'login', component: Register },
+  { path: '/info', name: 'info', component: Info },
   {
     path: '/',
     name: 'main',
@@ -27,7 +29,7 @@ const routes = [
       { path: '/search', name: 'search', component: Search },
       { path: '/center', name: 'center', component: Center },
       { path: '/shopcart', name: 'shopcart', component: ShopCart },
-      { path: '/category', name: 'category', component: Category },
+      { path: '/category', name: 'category', component: Category, props: true },
       { path: '/goodsinfo/:id', name: 'goodsinfo', component: goodsInfo, props: true },
       { path: '/category/goodslist', name: 'goodslist', component: goodsList },
       { path: '/cart', name: 'shopcart', component: Cart },

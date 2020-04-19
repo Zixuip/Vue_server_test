@@ -27,6 +27,8 @@ module.exports = app => {
     const model = await req.Model.create(req.body)
     res.send(model)
   })
+
+
   /* 
   // 加个populate：可以把parent关联的东西变成对象输出，而非单输出ta的id
       queryOptions：

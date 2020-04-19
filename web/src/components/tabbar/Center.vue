@@ -28,7 +28,9 @@ export default {
     };
   },
   methods: {
-    onInfo() {},
+    onInfo() {
+      this.$router.push("/Info");
+    },
     toOrder() {},
     onAddress() {},
     login() {
