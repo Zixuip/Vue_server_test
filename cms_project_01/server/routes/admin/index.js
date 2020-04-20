@@ -87,7 +87,7 @@ module.exports = app => {
 
     // 3.返回token
     const token = jwt.sign({ id: user._id }, app.get('secret'))
-    res.send({ token })//这里是返回token给客户端，可以加个username，这样就可以做到前端拿到用户名
+    res.send({ token, username })//这里是返回token给客户端，可以加个username，这样就可以做到前端拿到用户名
   })
 
   // 错误处理函数

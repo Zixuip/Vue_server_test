@@ -3,7 +3,7 @@
     <van-nav-bar title="个人信息" left-arrow @click-left="onBack" />
 
     <van-cell-group>
-      <van-cell title="用户名" :value="items.username" />
+      <van-cell title="用户名" :value="this.name" />
       <van-cell title="性别" value="男" />
     </van-cell-group>
 
@@ -17,26 +17,21 @@
 export default {
   data() {
     return {
-      items: []
+      name: {}
     };
   },
   methods: {
-    fetch() {
-      this.$http.get("rest/admin_user").then(res => {
-        this.items = res.data;
-        console.log(this.items);
-      });
-    },
     onBack() {
       this.$router.go(-1);
     },
     onLogOut() {
       localStorage.token = "";
+      localStorage.username = "";
       this.$router.go(-1);
     }
   },
   created() {
-    this.fetch();
+    this.name = localStorage.username;
   }
 };
 </script>

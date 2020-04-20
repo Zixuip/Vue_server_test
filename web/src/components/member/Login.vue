@@ -18,7 +18,8 @@
 export default {
   data() {
     return {
-      model: {}
+      model: {},
+      username: {}
     };
   },
   methods: {
@@ -26,13 +27,15 @@ export default {
       console.log(this.model);
     }, */
     async login() {
-      const res = await this.$http.post("login");
+      const res = await this.$http.post("login", this.model);
       localStorage.token = res.data.token;
+      localStorage.username = res.data.username;
       //把服务端返回的token保存到浏览器的存储中，浏览器关闭后，数据还在
       // sessionStorage.token = res.data.token;
       // sessionStorage：浏览器关闭后，数据自动清空
       this.$router.push("/center");
-      console.log(res.data);
+      // console.log(res.data);
+      // console.log(this.username);
     },
     onBack() {
       // 返回
