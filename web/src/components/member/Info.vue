@@ -3,13 +3,14 @@
     <van-nav-bar title="个人信息" left-arrow @click-left="onBack" />
 
     <van-cell-group>
-      <van-cell title="用户名" :value="this.name" />
+      <van-cell title="用户名" v-if="this.name != ''" :value="this.name" />
+      <van-cell title="用户名" v-else value="请先登录" />
       <van-cell title="性别" value="男" />
     </van-cell-group>
 
-    <div class="pageBottom van-button--danger" @click="onLogOut">
+    <!--  <div class="pageBottom van-button--danger" @click="onLogOut">
       <span class="tabbar-label">退出登录</span>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -25,13 +26,11 @@ export default {
       this.$router.go(-1);
     },
     onLogOut() {
-      localStorage.token = "";
-      localStorage.username = "";
       this.$router.go(-1);
     }
   },
   created() {
-    this.name = localStorage.username;
+    this.name = localStorage.name;
   }
 };
 </script>

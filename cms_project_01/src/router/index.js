@@ -10,6 +10,8 @@ import AdList from '../view/AdList.vue'
 import AdEdit from '../view/AdEdit.vue'
 import AdminUserList from '../view/AdminUserList.vue'
 import AdminUserEdit from '../view/AdminUserEdit.vue'
+import UserList from '../view/UserList.vue'
+import UserEdit from '../view/UserEdit.vue'
 import assert from 'http-assert'
 
 // 使用Vue-router插件 vue.prototype.$router = Router;
@@ -38,6 +40,10 @@ const router = new Router({
         { path: '/admin_user/index', component: AdminUserList, },
         { path: '/admin_user/create', component: AdminUserEdit, },
         { path: '/admin_user/edit/:id', component: AdminUserEdit, props: true },
+
+        { path: '/user/index', component: UserList, },
+        { path: '/user/create', component: UserEdit, },
+        { path: '/user/edit/:id', component: UserEdit, props: true },
 
 
 

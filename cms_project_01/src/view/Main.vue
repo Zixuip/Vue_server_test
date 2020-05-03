@@ -38,6 +38,11 @@
             <el-menu-item index="/admin_user/index">管理员列表</el-menu-item>
             <el-menu-item index="/admin_user/create">新增管理员</el-menu-item>
           </el-menu-item-group>
+          <el-menu-item-group>
+            <template slot="title">用户</template>
+            <el-menu-item index="/user/index">用户列表</el-menu-item>
+            <el-menu-item index="/user/create">新增用户</el-menu-item>
+          </el-menu-item-group>
         </el-submenu>
       </el-menu>
     </el-aside>
@@ -52,7 +57,7 @@
           </el-dropdown-menu>
         </el-dropdown>
         <span>王小虎</span>
-        <el-button round @click="$router.push('/login')">退出登录</el-button>
+        <el-button round @click="out">退出登录</el-button>
       </el-header>
 
       <el-main>
@@ -64,9 +69,14 @@
 
 <script>
 export default {
+  data() {
+    return {};
+  },
   methods: {
     out() {
-      // localStorage.token.clear();
+      // localStorage.token = "";
+      window.localStorage.removeItem(token);
+      this.$router.push("/center");
     }
   }
 };

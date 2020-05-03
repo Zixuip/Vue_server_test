@@ -27,6 +27,7 @@ http.interceptors.request.use(function (config) {
 }, function (error) {
   return Promise.reject(error)
 })
+
 http.interceptors.response.use(res => {
   return res
 }, err => {
@@ -46,9 +47,14 @@ http.interceptors.response.use(res => {
 })
 
 
+//------Vuex
+import store from './store'
+
+
 
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

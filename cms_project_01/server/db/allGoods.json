@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "message": "success",
+  "code": 200,
+  "timestamp": 1570874763772,
+  "result": {
+    "total": 32,
+    "data": [{
+      "productId": 150642571432852,
+      "salePrice": 499,
+      "productName": "FIIL Driifter 脖挂蓝牙耳机",
+      "subTitle": "全天佩戴 抬手就听 HEAC稳连技术",
+      "productImageBig": "https://resource.smartisan.com/resource/367d93db1d58f9f3505bc0ec18efaa44.jpg"
+    }]
+  }
+}

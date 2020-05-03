@@ -1,78 +1,131 @@
 <template>
   <div>
     <!-- header -->
-    <van-nav-bar title="分类" fixed :placeholder="true" />
+    <van-nav-bar title="全部" fixed :placeholder="true" />
 
     <!-- search -->
-    <van-search placeholder="请输入搜索关键词" input-align="center" class="search" />
+    <van-search
+      v-model="value"
+      show-action
+      placeholder="请输入搜索关键词"
+      input-align="center"
+      @search="onSearch"
+      @cancel="onCancel"
+    />
 
     <!-- body -->
     <div>
+      <!-- 循环商品 -->
+      <div v-for="(goodItem,goodIndex) in subitems" :key="goodIndex" class="rightItem">
+        <div class="good-item flex">
+          <div class="item d-flex" @click="$router.push(`/goodsinfo/${goodItem._id}`)">
+            <img class="goods-img" :src="goodItem.icon" />
+            <div>
+              <p>{{ goodItem.name }}</p>
+              <p class="product_price">
+                <span>¥</span>
+                {{ goodItem.price }}
+              </p>
+              <van-icon size="20px" name="cart-o" @click.stop="onAddCart(goodItem._id)" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="searchItem" class="rightItem">
+        <div class="good-item flex">
+          <div class="item d-flex" @click="$router.push(`/goodsinfo/${searchItem._id}`)">
+            <img class="goods-img" :src="searchItem.icon" />
+            <div>
+              <p>{{ searchItem.name }}</p>
+              <p class="product_price">
+                <span>¥</span>
+                {{ searchItem.price }}
+              </p>
+              <van-icon size="20px" name="cart-o" @click.stop="onAddCart(searchItem._id)" />
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- 循环分类 -->
-      <van-tabs @click="onBar" animated sticky>
+      <!-- <van-tabs @click="onBar" animated sticky>
         <van-tab
           :title="categoryItem.name"
           v-for="(categoryItem,categoryIndex) in items"
           :key="categoryIndex"
         >
-          <!-- 循环商品 -->
-          <div v-for="(goodItem,goodIndex) in subitems" :key="goodIndex" class="rightItem">
-            <div class="good-item flex">
-              <div class="item d-flex" @click="$router.push(`/goodsinfo/${goodItem._id}`)">
-                <img class="goods-img" :src="goodItem.icon" />
-                <div>
-                  <p>{{ goodItem.name }}</p>
-                  <p class="product_price">
-                    <span>¥</span>
-                    {{ goodItem.price }}
-                  </p>
-                  <van-icon size="20px" name="cart-o" @click.stop="onAddCart(categoryItem)" />
-                </div>
-              </div>
-            </div>
-          </div>
         </van-tab>
-      </van-tabs>
+      </van-tabs>-->
     </div>
   </div>
 </template>
 
 
 <script>
+import { getStore } from "../../utils/storage";
+import { Toast } from "vant";
 export default {
   props: {
     id: {}
   },
   data() {
     return {
-      items: [],
-      subitems: [],
-      type: ""
+      value: "",
+      items: {},
+      subitems: {},
+      searchItem: []
     };
   },
   methods: {
-    fetchCategoryList() {
+    /* fetchCategoryList() {
       // 获取categories的相关数据
       this.$http.get("rest/categories").then(res => {
         this.items = res.data;
-        this.type = this.items[0]._id;
-        console.log(this.type);
         this.fetchgoodslist();
       });
-    },
+    }, */
     fetchgoodslist() {
-      this.$http.get(`rest/goods`, this.type).then(res => {
+      // 获取全部商品
+      this.$http.get(`rest/goods`).then(res => {
         this.subitems = res.data;
+        console.log(this.subitems);
       });
     },
-    onBar(index, title) {
+    /* onBar(index, title) {
       this.type = title;
       this.fetchgoodslist();
       console.log(this.type);
+    }, */
+    onSearch(val) {
+      if (val) {
+        this.$http.post("/search", { name: val }).then(res => {
+          this.subitems = "";
+          this.searchItem = res.data;
+          console.log(this.searchItem);
+        });
+        Toast(val);
+      } else {
+        Toast("请输入详细的商品名字");
+      }
+    },
+    onCancel() {
+      this.subitems = "";
+      this.searchItem = "";
+      this.fetchgoodslist();
+    },
+    onAddCart(id) {
+      // 添加购物车
+      this.$http.post("/addcart", {
+        userId: getStore("id"),
+        goodsId: id,
+        goodsNum: 1
+      });
+      Toast("添加成功");
     }
   },
+  computed: {},
   mounted() {
-    this.fetchCategoryList();
+    this.fetchgoodslist();
+    // this.fetchCategoryList();
   }
 };
 </script>

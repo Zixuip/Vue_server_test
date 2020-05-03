@@ -3,7 +3,7 @@
     <h1>{{id? '编辑':'新建'}}商品</h1>
     <el-form @submit.native.prevent="saveGoods" label-width="120px">
       <el-form-item label="上级类型">
-        <el-select v-model="model.categories" multiple>
+        <el-select v-model="model.categories">
           <el-option
             v-for="item in categories"
             :key="item._id"
@@ -14,6 +14,9 @@
       </el-form-item>
       <el-form-item label="商品名称">
         <el-input v-model="model.name"></el-input>
+      </el-form-item>
+      <el-form-item label="分类名称">
+        <el-input v-model="model.title"></el-input>
       </el-form-item>
       <el-form-item label="新价格">
         <el-input v-model="model.price"></el-input>

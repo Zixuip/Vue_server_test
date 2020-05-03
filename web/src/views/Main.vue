@@ -10,7 +10,7 @@
     <van-tabbar v-model="active" route :placeholder="true" fixed>
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
 
-      <van-tabbar-item icon="search" to="/category">分类</van-tabbar-item>
+      <van-tabbar-item icon="apps-o" to="/category">全部</van-tabbar-item>
 
       <van-tabbar-item icon="shopping-cart-o" to="/shopcart">购物车</van-tabbar-item>
 

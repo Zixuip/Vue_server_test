@@ -10,7 +10,8 @@ const schema = new mongoose.Schema({
       return require('bcrypt').hashSync(val, 10)
     }
     // bcrypt:密码加密
-  }
+  },
+
 
 })
 

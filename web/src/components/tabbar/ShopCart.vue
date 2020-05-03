@@ -1,50 +1,84 @@
 <template>
   <div>
     <!-- header -->
-    <van-nav-bar title="购物车" fixed :placeholder="true">
-      <van-icon v-if="!showEdit" size="20px" name="edit" slot="right" @click="onEdit" />
-      <van-icon v-else size="20px" name="cross" slot="right" @click="showEdit = !showEdit" />
-    </van-nav-bar>
-
-    <div class="container"></div>
+    <van-nav-bar title="购物车" fixed :placeholder="true"></van-nav-bar>
 
     <!-- 内容 -->
-    <van-swipe-cell>
-      <van-card
-        num="2"
-        price="2999.00"
-        desc="最新ipad！等你来抢,限时抢购"
-        title="2020IPAD PRO"
-        class="goods-card"
-        thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
-      >
-        <template #footer>
-          <van-button size="mini">删除</van-button>
-        </template>
-      </van-card>
-    </van-swipe-cell>
+    <!-- <div v-if="model">
+      <van-swipe-cell v-for="(goods,i) in model" :key="i">
+        <van-card
+          class="goods-card"
+          :num="model[i].goodsNum"
+          :price="model[i].goodsPrice"
+          :title="model[i].goodsName"
+          :thumb="model[i].goodsImg"
+        >
+          <template #footer>
+            <van-button size="mini" @click="del(model[i]._id)">删除</van-button>
+          </template>
+        </van-card>
+      </van-swipe-cell>
+    </div>-->
+    <div v-if="model">
+      <van-swipe-cell>
+        <van-card
+          class="goods-card"
+          :num="model[0].goodsNum"
+          :price="model[0].goodsPrice"
+          :title="model[0].goodsName"
+          :thumb="model[0].goodsImg"
+        >
+          <template #footer>
+            <van-button size="mini" @click="del(model[0]._id)">删除</van-button>
+          </template>
+        </van-card>
+      </van-swipe-cell>
+    </div>
+
     <!-- 底部结算 -->
     <div>
-      <van-submit-bar :price="599800" button-text="提交订单" @submit="onSubmit" />
+      <van-submit-bar
+        :price="model[0].goodsPrice * model[0].goodsNum * 100"
+        button-text="提交订单"
+        @submit="onSubmit"
+      />
     </div>
   </div>
 </template>
 
 
 <script>
+import { Toast } from "vant";
+
 export default {
   data() {
     return {
-      active: 0
+      active: 0,
+      model: {},
+      goodsNum: {}
     };
   },
   methods: {
+    async fetchCart() {
+      const res = await this.$http.get("cart");
+      this.model = res.data;
+      // console.log(this.model[0]._id);
+    },
     onSubmit() {
-      console.log("ok");
+      this.$router.push("orderwait");
     },
     onBack() {
       this.$router.go(-1);
+    },
+    showEdit() {},
+    async del(id) {
+      await this.$http.post("delcart", { _id: id });
+      Toast("删除成功");
+      this.$router.go(0);
     }
+  },
+  created() {
+    this.fetchCart();
   }
 };
 </script>

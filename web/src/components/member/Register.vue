@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { Toast } from "vant";
 export default {
   data() {
     return {
@@ -42,7 +43,12 @@ export default {
     onBack() {
       this.$router.go(-1);
     },
-    onRegister() {}
+    async onRegister() {
+      const res = await this.$http.post("rest/user", this.model);
+      this.model = res.data;
+      Toast("注册成功");
+      this.$router.push("/login");
+    }
   }
 };
 </script>

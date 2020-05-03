@@ -11,7 +11,9 @@ const schema = new mongoose.Schema({
     }
     // bcrypt:密码加密
   },
+  userId: { type: String },
+  point: { type: String }
 
 })
 
-module.exports = mongoose.model('AdminUser', schema)
+module.exports = mongoose.model('User', schema)

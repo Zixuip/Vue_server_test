@@ -8,7 +8,7 @@
         <img :src="goods.icon" class="goodsImg" />
         <div class="detail-content">
           <div class="d-flex fs-xxl">
-            <p class="price fs-xxl">商品价格：{{ goods.price}}￥</p>
+            <p class="price fs-xxl">商品价格：{{ goods.price }}￥</p>
           </div>
           <van-divider />
           <div v-for="(items,index) in goods.img" :key="index">
@@ -21,12 +21,13 @@
     <!-- tabbar -->
     <van-goods-action class="tabbar">
       <van-goods-action-icon icon="cart-o" text="购物车" @click="toCart" />
-      <van-goods-action-button type="warning" text="加入购物车" @click="onBuyClicked" />
+      <van-goods-action-button type="warning" text="加入购物车" @click="onBuyClicked(goods._id)" />
     </van-goods-action>
   </div>
 </template>
 
 <script>
+import { getStore } from "../../utils/storage";
 import { Toast } from "vant";
 export default {
   props: {
@@ -34,7 +35,7 @@ export default {
   },
   data() {
     return {
-      goods: []
+      goods: {}
     };
   },
   methods: {
@@ -46,11 +47,21 @@ export default {
     toCart() {
       this.$router.push("../Shopcart");
     },
-    onBuyClicked() {
-      Toast("点击图标");
-    },
     onBack() {
+      // Toast("成功");
       this.$router.go(-1);
+    },
+    onBuyClicked(id) {
+      this.$http.post("/addcart", {
+        userId: getStore("id"),
+        goodsId: id,
+        /* goodsname: name,
+        goodsprice: price,
+        goodspoint: point,
+        goodsimg: icon, */
+        goodsNum: 1
+      });
+      Toast("添加成功");
     }
   },
   created() {

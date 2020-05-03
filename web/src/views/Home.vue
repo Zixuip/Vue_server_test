@@ -8,7 +8,7 @@
     </van-swipe>
 
     <!-- 九宫格之八 -->
-    <div class="sudoku_row">
+    <!--  <div class="sudoku_row">
       <div
         class="sudoku_item"
         :class="curSelect==sudoku.id?'opacity':''"
@@ -20,7 +20,7 @@
         <img :src="sudoku.img_src" width="40" height="40" />
         {{sudoku.name}}
       </div>
-    </div>
+    </div>-->
     <van-divider />
     <!-- 下方商品 -->
     <div>
@@ -53,7 +53,7 @@ export default {
   name: "sudoku",
   data() {
     return {
-      sudokus: [
+      /*  sudokus: [
         { id: 0, name: "冷饮", img_src: require("../assets/home/1.jpg") },
         { id: 1, name: "鱼类", img_src: require("../assets/home/2.jpg") },
         { id: 2, name: "积分", img_src: require("../assets/home/3.jpg") },
@@ -62,7 +62,7 @@ export default {
         { id: 5, name: "水果", img_src: require("../assets/home/6.jpg") },
         { id: 6, name: "肉类", img_src: require("../assets/home/7.jpg") },
         { id: 7, name: "肉类", img_src: require("../assets/home/8.jpg") }
-      ],
+      ], */
       model: [],
       goods: []
     };

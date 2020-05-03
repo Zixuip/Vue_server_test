@@ -12,14 +12,28 @@ import goodsInfo from '../components/goods/goodsInfo.vue'
 import goodsList from '../components/goods/goodsList.vue'
 import Cart from '../components/Cart/Cart.vue'
 import Info from '../components/member/Info.vue'
+import Address from '../components/address/Address.vue'
+import AddAddress from '../components/address/AddAddress.vue'
+import EditAddress from '../components/address/EditAddress.vue'
+import Order from "../components/order/Order.vue"
+import OrderWait from "../components/order/OrderWait.vue"
+import Detail from "../components/order/Detail.vue"
+import Point from "../components/Point/Point.vue"
 
 
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/login', name: 'login', component: Login },
-  { path: '/register', name: 'login', component: Register },
+  { path: '/login', name: 'login', component: Login, meta: { isPulic: true } },
+  { path: '/register', name: 'register', component: Register, meta: { isPulic: true } },
   { path: '/info', name: 'info', component: Info },
+  { path: '/address', name: 'address', component: Address },
+  { path: '/addaddress', name: 'addaddress', component: AddAddress },
+  { path: '/editaddress/:id', name: 'editaddress', component: EditAddress, props: true },
+  { path: '/order', name: '订单页面', component: Order },
+  { path: '/orderWait', name: '订单结算', component: OrderWait },
+  { path: '/order/:id', name: '订单详情', component: Detail, props: true },
+  { path: '/point', name: '积分页面', component: Point },
   {
     path: '/',
     name: 'main',
@@ -37,9 +51,16 @@ const routes = [
     ]
   },
 ]
-
 const router = new VueRouter({
   routes
 })
+router.beforeEach((to, from, next) => {
+  // to and from are both route objects. must call `next`.
+  if (!to.meta.isPulic && !localStorage.token) {
+    return next('/login')
+  }
+  next()
+})
+
 
 export default router

@@ -13,9 +13,10 @@ const schema = new mongoose.Schema({
   img: [{
     image: { type: String }
   }],
-  categories: [{
+  title: { type: String },
+  categories: {
     type: mongoose.SchemaTypes.ObjectId, ref: 'Category'
-  }]
+  }
 })
 
 module.exports = mongoose.model('Good', schema)
