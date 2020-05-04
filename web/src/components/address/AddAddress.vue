@@ -17,9 +17,13 @@
 </template>
 
 <script>
+import { Toast } from "vant";
+import { areaList } from "../../utils/area";
 export default {
   data() {
     return {
+      areaList,
+      searchResult: [],
       addressInfo: {}
     };
   },
@@ -28,9 +32,21 @@ export default {
       this.$router.go(-1);
     },
     async onSave() {
-      const res = await this.$http.post("rest/address", this.addressInfo);
-      this.addressInfo = res.data;
-      this.$router.push("/address");
+      if (!this.addressInfo.tel) {
+        Toast("请输入电话号码");
+      } else {
+        if (
+          !/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/.test(
+            this.addressInfo.tel
+          )
+        ) {
+          Toast("请输入正确的电话号码");
+        } else {
+          const res = await this.$http.post("rest/address", this.addressInfo);
+          this.addressInfo = res.data;
+          this.$router.push("/address");
+        }
+      }
     }
   }
 };

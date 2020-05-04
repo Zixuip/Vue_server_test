@@ -87,7 +87,7 @@ export default {
       // 获取全部商品
       this.$http.get(`rest/goods`).then(res => {
         this.subitems = res.data;
-        console.log(this.subitems);
+        // console.log(this.subitems);
       });
     },
     /* onBar(index, title) {
@@ -112,10 +112,10 @@ export default {
       this.searchItem = "";
       this.fetchgoodslist();
     },
-    onAddCart(id) {
+    async onAddCart(id) {
       // 添加购物车
-      this.$http.post("/addcart", {
-        userId: getStore("id"),
+      await this.$http.post("/addcart", {
+        userId: getStore("userId"),
         goodsId: id,
         goodsNum: 1
       });
@@ -125,6 +125,7 @@ export default {
   computed: {},
   mounted() {
     this.fetchgoodslist();
+    this.searchItem = "";
     // this.fetchCategoryList();
   }
 };

@@ -26,15 +26,8 @@ export default {
   },
   methods: {
     async login() {
-      if (!this.model.username) {
-        Toast("账号不能为空");
-        return;
-      } else if (!this.model.password && !this.model.username) {
-        Toast("账号密码不能为空");
-        return;
-      }
-
-      let res = await this.$http.post("login", this.model);
+      const res = await this.$http.post("login", this.model);
+      console.log(res.data.message);
       let { username, token, userId } = res.data;
       setStore("token", token);
       setStore("name", username);

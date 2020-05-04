@@ -8,13 +8,13 @@
       <van-swipe-cell v-for="(goods,i) in model" :key="i">
         <van-card
           class="goods-card"
-          :num="model[i].goodsNum"
-          :price="model[i].goodsPrice"
-          :title="model[i].goodsName"
-          :thumb="model[i].goodsImg"
+          :num="goods.goodsNum"
+          :price="goods.goodsPrice"
+          :title="goods.goodsName"
+          :thumb="goods.goodsImg"
         >
           <template #footer>
-            <van-button size="mini" @click="del(model[i]._id)">删除</van-button>
+            <van-button size="mini" @click="del(goods._id)">删除</van-button>
           </template>
         </van-card>
       </van-swipe-cell>

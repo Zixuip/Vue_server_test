@@ -20,10 +20,10 @@ export default {
       });
     },
     onBack() {
-      this.$router.go(-1);
+      this.$router.push("center");
     },
     onAddAddress() {
-      this.$router.push("/addaddress");
+      this.$router.push("addaddress");
     },
     onEditAddress(item) {
       // item获取当前行的信息

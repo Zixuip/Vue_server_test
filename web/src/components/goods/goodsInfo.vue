@@ -8,8 +8,9 @@
         <img :src="goods.icon" class="goodsImg" />
         <div class="detail-content">
           <div class="d-flex fs-xxl">
-            <p class="price fs-xxl">商品价格：{{ goods.price }}￥</p>
+            <p class="price fs-xxl">商品价格:{{ goods.price }}￥</p>
           </div>
+          <p class="amount fs-md">剩余:{{ goods.amount }}件</p>
           <van-divider />
           <div v-for="(items,index) in goods.img" :key="index">
             <img :src="items.image" class="imgage" />
@@ -51,9 +52,9 @@ export default {
       // Toast("成功");
       this.$router.go(-1);
     },
-    onBuyClicked(id) {
-      this.$http.post("/addcart", {
-        userId: getStore("id"),
+    async onBuyClicked(id) {
+      await this.$http.post("/addcart", {
+        userId: getStore("userId"),
         goodsId: id,
         /* goodsname: name,
         goodsprice: price,
@@ -80,6 +81,9 @@ export default {
 }
 .price {
   color: red;
+}
+.amount {
+  color: black;
 }
 .imgage {
   width: 100%;

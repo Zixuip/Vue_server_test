@@ -37,7 +37,7 @@
         <van-submit-bar
           class="btn"
           :price="orderData[0].goodsNum * orderData[0].goodsPrice * 100"
-          button-text="提交订单"
+          button-text="结算"
           @submit="onOrder(orderData, addressInfo)"
         />
       </div>
@@ -62,15 +62,18 @@ export default {
   },
   methods: {
     async fetchCart() {
+      // 获取购物车
       const res = await this.$http.get("cart");
       this.orderData = res.data;
       // console.log(this.orderData);
     },
     async fetchAddress() {
+      // 获取地址
       const res = await this.$http.get("rest/address");
       this.addressData = res.data;
     },
     async onOrder(orderData, addressInfo) {
+      // 下单
       if (!addressInfo.name) {
         Toast("请选择地址");
       } else {
@@ -86,6 +89,7 @@ export default {
           post: addressInfo.post,
           address: addressInfo.address
         });
+
         Toast("下单成功");
 
         this.$router.push("/order");

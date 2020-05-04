@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { Toast } from "vant";
 export default {
   props: {
     id: {}
@@ -38,8 +39,16 @@ export default {
       this.$router.go(-1);
     },
     onSave() {
-      this.$http.put(`rest/address/${this.id}`, this.addressInfo);
-      this.$router.push("/address");
+      if (
+        !/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/.test(
+          this.addressInfo.tel
+        )
+      ) {
+        Toast("请输入正确的电话号码");
+      } else {
+        this.$http.put(`rest/address/${this.id}`, this.addressInfo);
+        this.$router.push("/address");
+      }
     },
     onDelete() {
       this.$http.delete(`rest/address/${this.id}`, this.addressInfo);

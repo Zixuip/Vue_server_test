@@ -68,30 +68,34 @@ module.exports = app => {
   // 加入购物车start
   app.post('/admin/api/addcart', async (req, res) => {
     let { userId, goodsId, goodsNum } = req.body
-    const cart = await Cart.findOne({ goodsId })
-    if (!cart) {
-      // 根据goodsId判断是否存在，在就不重复添加
-      const goods = await Good.findById(goodsId)//找到对应商品ID的信息 
-      const model = await Cart.create({
-        userId: userId,
-        goodsId: goodsId,
-        goodsName: goods.name,
-        goodsPrice: goods.price,
-        goodsPoint: goods.point,
-        goodsImg: goods.icon,
-        goodsNum: goodsNum
-      })
-      res.send(model)
-    } else {
-      // 读取数量
-      const _num = await Cart.findOne({ goodsId })
-      Num = _num.goodsNum + 1
-      const model = await Cart.findOneAndUpdate({ goodsId }, {
-        goodsNum: Num
-      }, { new: true })
-      res.send(model)
-
+    const item = await Good.findById(goodsId)
+    if (item.amount <= 0) {
+      assert(item.amount, 422, '库存不足，添加失败')
+    } else if (item.amount > 0) {
+      const cart = await Cart.findOne({ goodsId })
+      if (!cart) {
+        // 根据goodsId判断是否存在，在就不重复添加
+        const goods = await Good.findById(goodsId)//找到对应商品ID的信息 
+        const model = await Cart.create({
+          userId: userId,
+          goodsId: goodsId,
+          goodsName: goods.name,
+          goodsPrice: goods.price,
+          goodsPoint: goods.point,
+          goodsImg: goods.icon,
+          goodsNum: goodsNum
+        })
+        res.send(model)
+      } else {
+        // 读取数量
+        const _num = await Cart.findOne({ goodsId })
+        Num = _num.goodsNum + 1
+        const model = await Cart.findOneAndUpdate({ goodsId }, {
+          goodsNum: Num
+        }, { new: true })
+      }
     }
+
   })
   // 获取购物车信息
   app.get('/admin/api/cart', async (req, res) => {
@@ -136,7 +140,15 @@ module.exports = app => {
         point: _point
       }, { new: true })
     }
+    // 修改库存
+    const _amount = await Good.findById(id)
+    amount_new = _amount.amount - num
+    await Good.findByIdAndUpdate(id, {
+      amount: amount_new
+    })
+    res.send(amount_new)
   })
+
   // 获取订单
   app.get("/admin/api/order", async (req, res) => {
     const model = await Order.find()
@@ -168,31 +180,35 @@ module.exports = app => {
     res.send(file)
   })
   // 管理员登录
-  /* app.post('/admin/api/login', async (req, res) => {
-    const { username, password } = req.body
-    //1. 根据用户名找数据中的用户
-    const user = await AdminUser.findOne({ username }).select('+password')
-    assert(user, 422, '用户不存在')
-   
-    //2.校验密码
-    const isValid = require('bcrypt').compareSync(password, user.password)
-    assert(isValid, 422, '密码错误')
-   
-    // 3.返回token
-    const token = jwt.sign({ id: user._id }, app.get('secret'))
-    res.send({ token, username })//这里是返回token给客户端，可以加个username，这样就可以做到前端拿到用户名
-  }) */
+  /*  app.post('/admin/api/login', async (req, res) => {
+     const { username, password } = req.body
+     const AdminUser = require('../../models/AdminUser')
+     //1. 根据用户名找数据中的用户
+     const user = await AdminUser.findOne({ username }).select('+password')
+     assert(user, 422, '用户不存在')
+ 
+     //2.校验密码
+     const isValid = require('bcrypt').compareSync(password, user.password)
+     assert(isValid, 422, '密码错误')
+ 
+     // 3.返回token
+     const token = jwt.sign({ id: user._id }, app.get('secret'))
+     res.send({ token, username })//这里是返回token给客户端，可以加个username，这样就可以做到前端拿到用户名
+   }) */
   //用户登录
   app.post('/admin/api/login', async (req, res) => {
     const { username, password } = req.body
     //1. 根据用户名找数据中的用户
-
     const user = await User.findOne({ username }).select('+password')
     assert(user, 422, '用户不存在')
-
     //2.校验密码
-    const isValid = require('bcrypt').compareSync(password, user.password)
-    assert(isValid, 422, '密码错误')
+    if (!password) {
+      assert(password, 422, '请输入密码')
+    } else {
+      const isValid = require('bcrypt').compareSync(password, user.password)
+      assert(isValid, 422, '密码错误')
+    }
+
 
     // 3.返回token
     const token = jwt.sign({ id: user._id }, app.get('secret'))
@@ -210,6 +226,7 @@ module.exports = app => {
   // 错误处理函数
   app.use(async (err, req, res, next) => {
     res.status(err.statusCode || 500).send({
+      // status: err.statusCode,
       message: err.message
     })
   })

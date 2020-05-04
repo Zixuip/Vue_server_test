@@ -24,6 +24,7 @@ http.interceptors.response.use(res => {
 }, err => {
   // Vue组件中自带的prototype方法，弹出提示
   if (err.response.data.message) {
+    // $message是elementUI里的全局提醒方法
     Vue.prototype.$message({
       type: 'error',
       message: err.response.data.message

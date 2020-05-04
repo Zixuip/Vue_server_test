@@ -12,12 +12,14 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 Vue.use(Vant);
 
+
 import axios from 'axios'
 const http = axios.create({
   baseURL: 'http://localhost:3000/admin/api'
 })
 Vue.prototype.$http = http
 
+// 这个是axios的方法之一
 http.interceptors.request.use(function (config) {
   // 在给前端传输消息的时候加一个请求头Authorization
   if (localStorage.token) {
@@ -28,14 +30,16 @@ http.interceptors.request.use(function (config) {
   return Promise.reject(error)
 })
 
+// 全局捕获错误
 http.interceptors.response.use(res => {
   return res
 }, err => {
   // Vue组件中自带的prototype方法，弹出提示
   if (err.response.data.message) {
-    Vue.prototype.$message({
-      type: 'error',
-      message: err.response.data.message
+    Vue.prototype.$notify({
+      type: 'danger',
+      message: err.response.data.message,
+
     })
     // 这里判断返回的错误是否为401,401错误代表当前用户没有登录，则没有对应的localStorage.token，无法通过校验，就会强制跳转到登录界面
     if (err.response.status === 401) {

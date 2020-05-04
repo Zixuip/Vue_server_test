@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>{{id? '编辑':'新建'}}管理员</h1>
+    <h1>{{id? '编辑':'新建'}}用户</h1>
     <el-form @submit.native.prevent="save" label-width="120px">
       <el-form-item label="名称">
         <el-input v-model="model.username"></el-input>
@@ -9,7 +9,7 @@
         <el-input type="password" v-model="model.password"></el-input>
       </el-form-item>
       <el-form-item label="ID">
-        <el-input v-model="model.id"></el-input>
+        <el-input v-model="model.userId"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
