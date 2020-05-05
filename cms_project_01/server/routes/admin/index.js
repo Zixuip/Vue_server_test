@@ -166,12 +166,6 @@ module.exports = app => {
   })
   // ========================订单end
 
-  // search搜索
-  app.post('/admin/api/search', async (req, res) => {
-    let name = req.body
-    const model = await Good.findOne(name)
-    res.send(model)
-  })
 
   // 自动寻找对应的模型
   app.use('/admin/api/rest/:resource', resourceMiddleware(), router)
@@ -213,8 +207,6 @@ module.exports = app => {
       const isValid = require('bcrypt').compareSync(password, user.password)
       assert(isValid, 422, '密码错误')
     }
-
-
     // 3.返回token
     const token = jwt.sign({ id: user._id }, app.get('secret'))
     const userId = user.userId

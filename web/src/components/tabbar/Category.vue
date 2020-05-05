@@ -32,16 +32,16 @@
         </div>
       </div>
       <div v-if="searchItem" class="rightItem">
-        <div class="good-item flex">
-          <div class="item d-flex" @click="$router.push(`/goodsinfo/${searchItem._id}`)">
-            <img class="goods-img" :src="searchItem.icon" />
+        <div class="good-item flex" v-for="(item,i) in searchItem" :key="i">
+          <div class="item d-flex" @click="$router.push(`/goodsinfo/${item._id}`)">
+            <img class="goods-img" :src="item.icon" />
             <div>
-              <p>{{ searchItem.name }}</p>
+              <p>{{ item.name }}</p>
               <p class="product_price">
                 <span>¥</span>
-                {{ searchItem.price }}
+                {{ item.price }}
               </p>
-              <van-icon size="20px" name="cart-o" @click.stop="onAddCart(searchItem._id)" />
+              <van-icon size="20px" name="cart-o" @click.stop="onAddCart(item._id)" />
             </div>
           </div>
         </div>
@@ -71,8 +71,9 @@ export default {
     return {
       value: "",
       items: {},
-      subitems: {},
-      searchItem: []
+      subitems: [],
+      searchItem: [],
+      list: []
     };
   },
   methods: {
@@ -95,20 +96,26 @@ export default {
       this.fetchgoodslist();
       console.log(this.type);
     }, */
+
     onSearch(val) {
       if (val) {
-        this.$http.post("/search", { name: val }).then(res => {
-          this.subitems = "";
-          this.searchItem = res.data;
-          console.log(this.searchItem);
+        /* 
+        模糊查询
+          用map方法循环请求过来的数组，之后用indexOf判断是否有匹配的商品名，有则push到新数组里
+        */
+        this.searchItem = [];
+        this.subitems.map(item => {
+          if (item.name.indexOf(val) != -1) {
+            this.searchItem.push(item);
+          }
+          this.subitems = [];
         });
-        Toast(val);
+        console.log(this.searchItem);
       } else {
-        Toast("请输入详细的商品名字");
+        this.onCancel();
       }
     },
     onCancel() {
-      this.subitems = "";
       this.searchItem = "";
       this.fetchgoodslist();
     },
