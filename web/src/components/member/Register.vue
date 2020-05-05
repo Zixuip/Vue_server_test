@@ -15,7 +15,7 @@
 
         <van-field
           v-model="model.password"
-          left-icon="edit"
+          left-icon="closed-eye"
           type="password"
           placeholder="请输入密码"
           required

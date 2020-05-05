@@ -22,7 +22,7 @@
       <van-cell class="member_item" title="我的订单" is-link @click="toOrder" />
       <van-cell class="member_item" title="我的地址" is-link @click="onAddress" />
 
-      <van-cell v-if="model" class="member_item" title="我的积分：" :value="model" />
+      <van-cell v-if="model" class="member_item" title="我的积分：" :value="model.point" />
       <van-cell v-else class="member_item" title="我的积分：" value="尚未获得积分" />
     </div>
   </div>

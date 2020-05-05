@@ -69,9 +69,7 @@ module.exports = app => {
   app.post('/admin/api/addcart', async (req, res) => {
     let { userId, goodsId, goodsNum } = req.body
     const item = await Good.findById(goodsId)
-    if (item.amount <= 0) {
-      assert(item.amount, 422, '库存不足，添加失败')
-    } else if (item.amount > 0) {
+    if (item.amount > 0) {
       const cart = await Cart.findOne({ goodsId })
       if (!cart) {
         // 根据goodsId判断是否存在，在就不重复添加
@@ -90,12 +88,18 @@ module.exports = app => {
         // 读取数量
         const _num = await Cart.findOne({ goodsId })
         Num = _num.goodsNum + 1
-        const model = await Cart.findOneAndUpdate({ goodsId }, {
-          goodsNum: Num
-        }, { new: true })
+        if (item.amount != _num.goodsNum) {
+          const model = await Cart.findOneAndUpdate({ goodsId }, {
+            goodsNum: Num
+          }, { new: true })
+          res.send(model)
+        } else {
+          assert(!item.amount, 422, '库存上限')
+        }
       }
+    } else if (item.amount === 0) {
+      assert(item.amount, 422, '库存为零')
     }
-
   })
   // 获取购物车信息
   app.get('/admin/api/cart', async (req, res) => {
@@ -220,7 +224,15 @@ module.exports = app => {
   app.post('/admin/api/point', async (req, res) => {
     const username = req.body
     const model = await User.findOne(username)
-    res.send(model.point)
+    res.send(model)
+  })
+  // 使用积分兑换，积分清零
+  app.post('/admin/api/resetPoint', async (req, res) => {
+    const username = req.body
+    const model = await User.findOneAndUpdate(username, {
+      point: 0
+    })
+    res.send(model)
   })
 
   // 错误处理函数

@@ -119,6 +119,7 @@ export default {
         goodsId: id,
         goodsNum: 1
       });
+
       Toast("添加成功");
     }
   },

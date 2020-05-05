@@ -6,7 +6,13 @@
       <van-cell-group @submit.native.prevent="login">
         <van-field v-model="model.username" required clearable left-icon="contact" label="用户名：" />
 
-        <van-field v-model="model.password" left-icon="edit" type="password" required label="密码：" />
+        <van-field
+          v-model="model.password"
+          left-icon="closed-eye"
+          type="password"
+          required
+          label="密码："
+        />
       </van-cell-group>
       <van-button class="login_btn" size="small" round type="info" @click="login">登录</van-button>
     </div>

@@ -34,9 +34,21 @@
           :title="orderItem.goodsName"
           :thumb="orderItem.goodsImg"
         />
+        <div>
+          使用积分抵扣：
+          <van-switch :value="checked" @input="onInput" />
+        </div>
         <van-submit-bar
+          v-if="checked === false"
           class="btn"
           :price="orderData[0].goodsNum * orderData[0].goodsPrice * 100"
+          button-text="结算"
+          @submit="onOrder(orderData, addressInfo)"
+        />
+        <van-submit-bar
+          v-else
+          class="btn"
+          :price="(orderData[0].goodsNum * orderData[0].goodsPrice) *100 - model.point*100"
           button-text="结算"
           @submit="onOrder(orderData, addressInfo)"
         />
@@ -47,17 +59,19 @@
 
 <script>
 import { getStore } from "../../utils/storage";
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
 export default {
   data() {
     return {
+      checked: false,
       chosenContactId: null,
       showList: false,
       showEdit: false,
       isEdit: false,
       addressData: [],
       orderData: [],
-      addressInfo: {}
+      addressInfo: {},
+      model: {}
     };
   },
   methods: {
@@ -77,24 +91,59 @@ export default {
       if (!addressInfo.name) {
         Toast("请选择地址");
       } else {
-        addressInfo = this.addressInfo;
-        this.$http.post("/order", {
-          userId: getStore("userId"),
-          id: orderData[0].goodsId,
-          price: orderData[0].goodsNum * orderData[0].goodsPrice * 100,
-          num: orderData[0].goodsNum,
-          point: orderData[0].goodsPoint,
-          name: addressInfo.name,
-          tel: addressInfo.tel,
-          post: addressInfo.post,
-          address: addressInfo.address
-        });
+        if (this.checked === false) {
+          addressInfo = this.addressInfo;
+          this.$http.post("/order", {
+            userId: getStore("userId"),
+            id: orderData[0].goodsId,
+            price: orderData[0].goodsNum * orderData[0].goodsPrice * 100,
+            num: orderData[0].goodsNum,
+            point: orderData[0].goodsPoint,
+            name: addressInfo.name,
+            tel: addressInfo.tel,
+            post: addressInfo.post,
+            address: addressInfo.address
+          });
+        } else {
+          await this.$http.post("/resetPoint", {
+            username: localStorage.name
+          });
+          addressInfo = this.addressInfo;
+          this.$http.post("/order", {
+            userId: getStore("userId"),
+            id: orderData[0].goodsId,
+            price:
+              orderData[0].goodsNum * orderData[0].goodsPrice * 100 -
+              this.model.point * 100,
+            num: orderData[0].goodsNum,
+            point: orderData[0].goodsPoint,
+            name: addressInfo.name,
+            tel: addressInfo.tel,
+            post: addressInfo.post,
+            address: addressInfo.address
+          });
+        }
 
         Toast("下单成功");
 
         this.$router.push("/order");
       }
     },
+    onInput(checked) {
+      Dialog.confirm({
+        title: "提醒",
+        message: "是否使用/取消？(优惠期间一积分抵扣一块钱)"
+      }).then(async () => {
+        // 获取到point
+        const res = await this.$http.post("/point", {
+          username: localStorage.name
+        });
+        this.model = res.data;
+        console.log(this.model);
+        this.checked = checked;
+      });
+    },
+
     onAdd() {
       this.$router.push("/addaddress");
     },

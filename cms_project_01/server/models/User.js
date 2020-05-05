@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
     // bcrypt:密码加密
   },
   userId: { type: String },
-  point: { type: String }
+  point: { type: Number }
 
 })
 
