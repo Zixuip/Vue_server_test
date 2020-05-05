@@ -123,9 +123,8 @@ export default {
             address: addressInfo.address
           });
         }
-
+        this.$http.post("delcart", { goodsId: orderData[0].goodsId });
         Toast("下单成功");
-
         this.$router.push("/order");
       }
     },

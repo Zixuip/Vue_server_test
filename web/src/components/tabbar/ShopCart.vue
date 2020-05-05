@@ -29,7 +29,7 @@
           :thumb="model[0].goodsImg"
         >
           <template #footer>
-            <van-button size="mini" @click="del(model[0]._id)">删除</van-button>
+            <van-button size="mini" @click="del(model[0].goodsId)">删除</van-button>
           </template>
         </van-card>
       </van-swipe-cell>
@@ -72,7 +72,7 @@ export default {
     },
     showEdit() {},
     async del(id) {
-      await this.$http.post("delcart", { _id: id });
+      await this.$http.post("delcart", { goodsId: id });
       Toast("删除成功");
       this.$router.go(0);
     }

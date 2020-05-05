@@ -108,7 +108,8 @@ module.exports = app => {
   })
   // 删除购物车信息
   app.post('/admin/api/delcart', async (req, res) => {
-    await Cart.findByIdAndRemove(req.body)
+    let { goodsId } = req.body
+    await Cart.findOneAndDelete({ goodsId })
     res.send({ success: true })
   })
   // 购物车end
