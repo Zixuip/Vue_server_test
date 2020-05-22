@@ -5,8 +5,8 @@
       <el-form-item label="名称">
         <el-input v-model="model.name"></el-input>
       </el-form-item>
-      <el-form-item label="跳转地址">
-        <el-input v-model="model.urlink"></el-input>
+      <el-form-item label="相关内容">
+        <el-input v-model="model.content"></el-input>
       </el-form-item>
       <el-form-item label="图片">
         <el-upload

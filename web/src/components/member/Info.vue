@@ -3,8 +3,7 @@
     <van-nav-bar title="个人信息" left-arrow @click-left="onBack" />
 
     <van-cell-group>
-      <van-cell title="用户名" v-if="this.name != ''" :value="this.name" />
-      <van-cell title="用户名" v-else value="请先登录" />
+      <van-cell title="用户名" :value="this.name" />
       <van-cell title="性别" value="男" />
     </van-cell-group>
 
@@ -18,7 +17,12 @@
 export default {
   data() {
     return {
-      name: {}
+      value1: 0,
+      name: {},
+      option1: [
+        { text: "男", value: 0 },
+        { text: "女", value: 1 }
+      ]
     };
   },
   methods: {

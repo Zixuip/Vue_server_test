@@ -2,10 +2,11 @@
   <div>
     <!-- swiper -->
     <van-swipe :autoplay="3000">
-      <van-swipe-item class="swipe" v-for="(items,index) in model" :key="index">
+      <van-swipe-item class="swipe" v-for="(items,i) in model.slice(0,3) " :key="i">
         <img class="swipe_img" :src="items.img" />
       </van-swipe-item>
     </van-swipe>
+    <van-notice-bar :text="model[3].content" left-icon="volume-o" />
 
     <!-- 九宫格之八 -->
     <!--  <div class="sudoku_row">
@@ -28,7 +29,7 @@
         <div
           class="goods-item"
           @click="$router.push(`/goodsinfo/${items._id}`)"
-          v-for="(items,index) in goods"
+          v-for="(items,index) in goods.slice(0,3)"
           :key="index"
         >
           <img :src="items.icon" />
@@ -73,7 +74,7 @@ export default {
       const res = await this.$http.get("rest/goods");
       this.goods = res.data;
     },
-    // 获取轮播图
+    // 获取广告
     async fetch() {
       const res = await this.$http.get("rest/ads");
       this.model = res.data;

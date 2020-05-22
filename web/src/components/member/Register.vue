@@ -12,7 +12,6 @@
           placeholder="请输入用户名"
           label="用户名："
         />
-
         <van-field
           v-model="model.password"
           left-icon="closed-eye"
@@ -20,6 +19,13 @@
           placeholder="请输入密码"
           required
           label="密码："
+        />
+        <van-field
+          v-model="model._password"
+          left-icon="closed-eye"
+          type="password"
+          placeholder="请输入密码"
+          label="确认密码："
         />
       </van-cell-group>
       <van-button class="login_btn" size="small" round type="info" @click="onRegister">注册</van-button>
@@ -44,10 +50,18 @@ export default {
       this.$router.go(-1);
     },
     async onRegister() {
-      const res = await this.$http.post("rest/user", this.model);
-      this.model = res.data;
-      Toast("注册成功");
-      this.$router.push("/login");
+      if (!this.model.username) {
+        Toast("请输入用户名");
+      } else if (!this.model.password) {
+        Toast("请输入密码");
+      } else if (this.model.password != this.model._password) {
+        Toast("两次密码不相同");
+      } else {
+        const res = await this.$http.post("rest/user", this.model);
+        this.model = res.data;
+        Toast("注册成功");
+        this.$router.push("/login");
+      }
     }
   }
 };

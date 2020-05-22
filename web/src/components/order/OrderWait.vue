@@ -20,6 +20,7 @@
         <van-popup v-model="showList" position="bottom">
           <van-contact-list
             v-model="chosenContactId"
+            add-text="添加地址"
             :list="addressData"
             @add="onAdd"
             @edit="onEdit"

@@ -62,7 +62,7 @@ export default {
     async fetchCart() {
       const res = await this.$http.get("cart");
       this.model = res.data;
-      // console.log(this.model[0]._id);
+      
     },
     onSubmit() {
       this.$router.push("orderwait");
