@@ -15,7 +15,7 @@ Vue.use(Vant);
 
 import axios from 'axios'
 const http = axios.create({
-  baseURL: 'http://localhost:3000/admin/api'
+  baseURL: 'http://localhost:3000/web/api'
 })
 Vue.prototype.$http = http
 
