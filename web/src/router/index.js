@@ -30,8 +30,8 @@ const routes = [
   { path: '/address', name: 'address', component: Address },
   { path: '/addaddress', name: 'addaddress', component: AddAddress },
   { path: '/editaddress/:id', name: 'editaddress', component: EditAddress, props: true },
-  { path: '/order', name: '订单页面', component: Order },
-  { path: '/orderWait', name: '订单结算', component: OrderWait },
+  { path: '/order', name: 'order', component: Order },
+  { path: '/orderWait', name: 'orderwait', component: OrderWait },
   { path: '/order/:id', name: '订单详情', component: Detail, props: true },
 
   {
@@ -46,7 +46,7 @@ const routes = [
       { path: '/category', name: 'category', component: Category, props: true },
       { path: '/goodsinfo/:id', name: 'goodsinfo', component: goodsInfo, props: true },
       { path: '/category/goodslist', name: 'goodslist', component: goodsList },
-      { path: '/cart', name: 'shopcart', component: Cart },
+      { path: '/cart', name: 'cart', component: Cart },
 
     ]
   },

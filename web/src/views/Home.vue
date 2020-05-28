@@ -6,7 +6,7 @@
         <img class="swipe_img" :src="items.img" />
       </van-swipe-item>
     </van-swipe>
-    <van-notice-bar :text="model[3].content" left-icon="volume-o" />
+    <van-notice-bar :text="content" left-icon="volume-o" />
 
     <!-- 九宫格之八 -->
     <!--  <div class="sudoku_row">
@@ -65,7 +65,8 @@ export default {
         { id: 7, name: "肉类", img_src: require("../assets/home/8.jpg") }
       ], */
       model: [],
-      goods: []
+      goods: [],
+      content: ""
     };
   },
   methods: {
@@ -78,8 +79,9 @@ export default {
     async fetch() {
       const res = await this.$http.get("rest/ads");
       this.model = res.data;
-    },
-    curSelect() {},
+      this.content = res.data[3].content;
+    }
+    /*  curSelect() {},
     touchstart: function(e) {
       var that = this;
       var list = that.sudokus;
@@ -88,11 +90,11 @@ export default {
           that.curSelect = i;
         }
       }
-    },
+    } ,
     touchend: function() {
       var that = this;
       that.curSelect = null;
-    }
+    } */
   },
   created() {
     this.fetch();
