@@ -4,7 +4,7 @@
     <van-nav-bar title="购物车" fixed :placeholder="true"></van-nav-bar>
 
     <!-- 内容 -->
-    <!-- <div v-if="model">
+    <div v-if="model">
       <van-swipe-cell v-for="(goods,i) in model" :key="i">
         <van-card
           class="goods-card"
@@ -18,30 +18,10 @@
           </template>
         </van-card>
       </van-swipe-cell>
-    </div>-->
-    <div v-if="model">
-      <van-swipe-cell>
-        <van-card
-          class="goods-card"
-          :num="model[0].goodsNum"
-          :price="model[0].goodsPrice"
-          :title="model[0].goodsName"
-          :thumb="model[0].goodsImg"
-        >
-          <template #footer>
-            <van-button size="mini" @click="del(model[0].goodsId)">删除</van-button>
-          </template>
-        </van-card>
-      </van-swipe-cell>
     </div>
 
-    <!-- 底部结算 -->
     <div>
-      <van-submit-bar
-        :price="model[0].goodsPrice * model[0].goodsNum * 100"
-        button-text="提交订单"
-        @submit="onSubmit"
-      />
+      <van-submit-bar :price="totalPrice *100" button-text="提交订单" @submit="onSubmit" />
     </div>
   </div>
 </template>
@@ -54,15 +34,18 @@ export default {
   data() {
     return {
       active: 0,
-      model: {},
-      goodsNum: {}
+      model: [],
+      tableData: [],
+      items: [],
+      goodsNum: 0
     };
   },
   methods: {
     async fetchCart() {
       const res = await this.$http.get("cart");
-      this.model = res.data;
-      
+      this.tableData = res.data;
+      this.model = this.tableData;
+      console.log(this.model);
     },
     onSubmit() {
       this.$router.push("orderwait");
@@ -79,6 +62,18 @@ export default {
   },
   created() {
     this.fetchCart();
+  },
+  computed: {
+    totalCount() {
+      return this.model.reduce((pre, items) => {
+        return pre + items.goodsNum;
+      }, 0);
+    },
+    totalPrice() {
+      return this.model.reduce((pre, items) => {
+        return pre + items.goodsPrice * items.goodsNum;
+      }, 0);
+    }
   }
 };
 </script>
