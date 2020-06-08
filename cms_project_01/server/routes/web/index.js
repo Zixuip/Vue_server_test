@@ -78,7 +78,12 @@ module.exports = app => {
     res.send({ success: true })
   })
   // 购物车end
-
+  // 获取商品最大库存
+  app.get('/web/api/maxNum', async (req, res) => {
+    let { goodsId } = req.body
+    const model = await Good.findOne({ goodsId })
+    res.send(model)
+  })
   // 订单start
   // 生成订单
   app.post('/web/api/order', async (req, res) => {

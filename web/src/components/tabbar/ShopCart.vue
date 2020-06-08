@@ -8,15 +8,23 @@
       <van-swipe-cell v-for="(goods,i) in model" :key="i">
         <van-card
           class="goods-card"
-          :num="goods.goodsNum"
           :price="goods.goodsPrice"
           :title="goods.goodsName"
           :thumb="goods.goodsImg"
         >
           <template #footer>
-            <van-button size="mini" @click="del(goods._id)">删除</van-button>
+            <van-stepper v-model="goods.goodsNum" @plus="add(goods.goodsId)" />
           </template>
         </van-card>
+        <template #right>
+          <van-button
+            square
+            text="删除"
+            type="danger"
+            class="delete-button"
+            @click="del(goods.goodsId)"
+          />
+        </template>
       </van-swipe-cell>
     </div>
 
@@ -35,7 +43,6 @@ export default {
     return {
       active: 0,
       model: [],
-      tableData: [],
       items: [],
       goodsNum: 0
     };
@@ -43,9 +50,7 @@ export default {
   methods: {
     async fetchCart() {
       const res = await this.$http.get("cart");
-      this.tableData = res.data;
-      this.model = this.tableData;
-      console.log(this.model);
+      this.model = res.data;
     },
     onSubmit() {
       this.$router.push("orderwait");
@@ -53,7 +58,12 @@ export default {
     onBack() {
       this.$router.go(-1);
     },
-    showEdit() {},
+    async add(id) {
+      await this.$http.post("/addcart", {
+        goodsId: id,
+        goodsNum: 1
+      });
+    },
     async del(id) {
       await this.$http.post("delcart", { goodsId: id });
       Toast("删除成功");
@@ -65,6 +75,7 @@ export default {
   },
   computed: {
     totalCount() {
+      //reduce方法计算
       return this.model.reduce((pre, items) => {
         return pre + items.goodsNum;
       }, 0);
@@ -77,18 +88,11 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style >
 .van-submit-bar {
   margin-bottom: 55px;
 }
-
-// swipcell
-.goods-card {
-  margin: 0;
-  background-color: white;
-}
-
 .delete-button {
-  height: 100%;
+  height: 100% !important;
 }
 </style>
